@@ -10,25 +10,25 @@
 }
 \usage{
 comparePlot(obj1, obj2, ... )
-\S4method{comparePlot}{IC,IC}(obj1, obj2, obj3 = NULL, obj4 = NULL, 
-             data = NULL, ..., withSweave = getdistrOption("withSweave"),
-             forceSameModel = FALSE,
-             main = FALSE, inner = TRUE, sub = FALSE, 
-             col = par("col"), lwd = par("lwd"), lty, 
-             col.inner = par("col.main"), cex.inner = 0.8, 
-             bmar = par("mar")[1], tmar = par("mar")[3],
-             with.legend = FALSE, legend = NULL, legend.bg = "white",
-             legend.location = "bottomright", legend.cex = 0.8,
-             withMBR = FALSE, MBRB = NA, MBR.fac = 2, col.MBR = par("col"),
-             lty.MBR = "dashed", lwd.MBR = 0.8,
-             scaleX = FALSE, scaleX.fct, scaleX.inv,
-             scaleY = FALSE, scaleY.fct = pnorm, scaleY.inv=qnorm,
-             scaleN = 9, x.ticks = NULL, y.ticks = NULL,
-             mfColRow = TRUE, to.draw.arg = NULL,
-             cex.pts = 1, col.pts = par("col"),
-             pch.pts = 1, jitter.fac = 1, with.lab = FALSE,
-             lab.pts = NULL, lab.font = NULL, alpha.trsp = NA,
-             which.lbs = NULL, which.Order  = NULL, return.Order = FALSE)
+\S4method{comparePlot}{IC,IC}(obj1, obj2, obj3 = NULL, obj4 = NULL, data = NULL,
+                 ..., withSweave = getdistrOption("withSweave"),
+                 forceSameModel = FALSE, main = FALSE, inner = TRUE,
+                 sub = FALSE, col = par("col"), lwd = par("lwd"), lty,
+                 col.inner = par("col.main"), cex.inner = 0.8, bmar =
+                 par("mar")[1], tmar = par("mar")[3],
+                 with.automatic.grid = TRUE, with.legend = FALSE,
+                 legend = NULL, legend.bg = "white", legend.location =
+                 "bottomright", legend.cex = 0.8, withMBR = FALSE, MBRB
+                 = NA, MBR.fac = 2, col.MBR = par("col"), lty.MBR =
+                 "dashed", lwd.MBR = 0.8, x.vec = NULL, scaleX = FALSE,
+                 scaleX.fct, scaleX.inv, scaleY = FALSE, scaleY.fct =
+                 pnorm, scaleY.inv = qnorm, scaleN = 9, x.ticks = NULL,
+                 y.ticks = NULL, mfColRow = TRUE, to.draw.arg = NULL,
+                 cex.pts = 1, cex.pts.fun = NULL, col.pts = par("col"),
+                 pch.pts = 1, jitter.fac = 1, with.lab = FALSE, lab.pts
+                 = NULL, lab.font = NULL, alpha.trsp = NA, which.lbs =
+                 NULL, which.Order = NULL, return.Order = FALSE,
+                 withSubst = TRUE)
 }
 \arguments{
   \item{obj1}{ object of class \code{"InfluenceCurve"} }
@@ -61,6 +61,9 @@ comparePlot(obj1, obj2, ... )
           to the current setting of \code{cex}; as in 
           \code{\link[graphics]{par}}}
   \item{col.inner}{character or integer code; color for the inner title}              
+  \item{with.automatic.grid}{logical; should a grid be plotted alongside
+      with the ticks of the axes, automatically? If \code{TRUE} a respective
+      call to \code{grid} in argument \code{panel.first} is ignored. }
   \item{with.legend}{logical; shall a legend be plotted?}
   \item{legend}{either \code{NULL} or a list of length (number of plotted panels)
                 of items which can be used as argument \code{legend} in
@@ -80,6 +83,15 @@ comparePlot(obj1, obj2, ... )
   \item{col.MBR}{color for the MBR lines; as usual \code{col}-argument;}
   \item{lty.MBR}{line type for the MBR lines; as usual \code{lty}-argument;}
   \item{lwd.MBR}{line width for the MBR lines; as usual \code{lwd}-argument;}
+  \item{x.vec}{a numeric vector of grid points to evaluate the influence curve;
+               by default, \code{x.vec} is \code{NULL}; then the grid is
+               produced automatically according to the distribution of the IC.
+               \code{x.vec} can be useful for usage with a rescaling of the
+               x-axis to avoid that the evaluation points be selected too
+               unevenly (i.e. on an equally spaced grid in the original scale,
+               but then, after rescaling non-equally).
+               The grid has to be specified in original scale; i.e.; when used
+               with rescaling, it should be chosen non-equally spaced. }
   \item{scaleX}{logical; shall X-axis be rescaled (by default according to the cdf of
           the underlying distribution)?}
   \item{scaleY}{logical; shall Y-axis be rescaled (by default according to a probit scale)?}
@@ -94,10 +106,14 @@ comparePlot(obj1, obj2, ... )
             missing, the quantile function of the underlying observation distribution.}
   \item{scaleY.fct}{an isotone, vectorized function mapping for each coordinate the
             range of the respective coordinate of the IC
-            to [0,1]; defaulting to the cdf of \eqn{{\cal N}(0,1)}{N(0,1)}.}
+            to [0,1]; defaulting to the cdf of \eqn{{\cal N}(0,1)}{N(0,1)};
+            can also be a list of functions with one list element for each
+            of the panels to be plot. }
   \item{scaleY.inv}{an isotone, vectorized function mapping for each coordinate
             the range [0,1] into the range of the respective coordinate of the IC;
-            defaulting to the quantile function of  \eqn{{\cal N}(0,1)}{N(0,1)}.}
+            defaulting to the quantile function of  \eqn{{\cal N}(0,1)}{N(0,1)};
+            can also be a list of functions with one list element for each
+            of the panels to be plot. }
   \item{scaleN}{integer; defaults to 9; on rescaled axes, number of x
                 and y ticks if drawn automatically;}
   \item{x.ticks}{numeric; defaults to NULL; (then ticks are chosen automatically);
@@ -117,13 +133,39 @@ comparePlot(obj1, obj2, ... )
                          vector \code{"dim<dimnr>"}, \code{dimnr} running through 
                          the number of rows of the trafo matrix.
                          }
-  \item{cex.pts}{size of the points of the \code{data} argument plotted}
-  \item{col.pts}{color of the points of the \code{data} argument plotted}
-  \item{pch.pts}{symbol of the points of the \code{data} argument plotted}
-  \item{with.lab}{logical; shall labels be plotted to the observations?}
-  \item{lab.pts}{character or NULL; labels to be plotted to the observations; if \code{NULL}
-                 observation indices;}
-  \item{lab.font}{font to be used for labels}
+  \item{withSubst}{logical; if \code{TRUE} (default) pattern substitution for
+        titles and lables is used; otherwise no substitution is used. }
+  \item{col.pts}{color of the points of the \code{data} argument plotted; (may 
+     be a vector of length \code{nIC}, \code{nIC} the number of plotted pICs, 
+     i.e., one value for each pIC in arguments \code{obj1}, \code{obj2}, and, 
+     if available, \code{obj3} and \code{obj4}, or it can be a matrix 
+     \code{n} by \code{nIC}, \code{n} the number of observations prior to any 
+     selection, in which case it assigns observation-specific colors to the 
+     observations; in this case this  overrides settings in the respective 
+     \code{col.nonlbl} argument.}
+  \item{pch.pts}{symbol of the points of the \code{data} argument plotted
+                 (may be a vector of length \code{nIC} or a matrix, see \code{col.pts}).}
+  \item{cex.pts}{size of the points of the \code{data} argument plotted
+                 (may be a vector of length \code{nIC} or a matrix, see \code{col.pts}).}
+  \item{cex.pts.fun}{rescaling function for the size of the points to be plotted;
+        either \code{NULL} (default), then \code{log(1+abs(x))} is used for each of
+        the rescalings, or a function which is then used for each of the
+        rescalings, or a list of functions; if it is a function or a list of
+        functions, if necessary it is recylced to length \code{nIC * dim}
+        where \code{dim} is the number of dimensions of the pICs to be plotted; 
+        in the index of this list, \code{nIC} is incremented first; 
+        then \code{dim}.}
+
+  \item{with.lab}{logical; shall labels be plotted to the observations?
+                 (May be a vector of length \code{nIC}, see \code{col.pts}
+                 -- but not a matrix).}
+  \item{lab.pts}{character or NULL; labels to be plotted to the observations; 
+                 can be a vector of length \code{n}, \code{n} the number of 
+                 all observations prior to any selection with \code{which.lbs},
+                 \code{which.Order}; if \code{lab.pts} is \code{NULL}, 
+                 observation indices are used.}
+  \item{lab.font}{font to be used for labels (may be a vector of length 
+                  \code{nIC}, see \code{with.lab}).}
   \item{alpha.trsp}{alpha transparency to be added ex post to colors
         \code{col.pch} and \code{col.lbl}; if one-dim and NA all colors are
         left unchanged. Otherwise, with usual recycling rules \code{alpha.trsp}
@@ -133,9 +175,10 @@ comparePlot(obj1, obj2, ... )
         to the respective coordinate value of \code{alpha.trsp}. The non-NA
         entries must be integers in [0,255] (0 invisible, 255 opaque).}
   \item{jitter.fac}{jittering factor used in case of a \code{DiscreteDistribution}
-                    for plotting points of the \code{data} argument in a jittered fashion.}
+                    for plotting points of the \code{data} argument in a jittered 
+                    fashion (may be a vector of length 2, see \code{with.lab}).}
   \item{which.lbs}{either an integer vector with the indices of the observations
-          to be plotted into graph or \code{NULL} --- then no observation is excluded}
+          to be plotted into graph or \code{NULL} --- then no observation is excluded.}
   \item{which.Order}{for each of the given ICs, we order the observations (descending)
            according to the norm given by the corresponding \code{normtype(object)};
            then \code{which.Order} either is an integer vector with the indices of the \emph{ordered}
@@ -150,6 +193,12 @@ comparePlot(obj1, obj2, ... )
            \code{normtype(object)});
    othervise we return \code{invisible()} as usual.}
   \item{\dots}{further arguments to be passed to \code{plot}}
+}
+\value{
+  The function returns invisibly a list of elements containing the information 
+  needed to compute the respective diagnostic plot.
+   The return value allows to recover all information used to produce the plot
+   for later use in enhanced graphics (e.g. with ggplot).   
 }
 \details{
 Any parameters of \code{plot.default} may be passed on to this particular
@@ -166,7 +215,8 @@ class and (named) parameter slots of arguments in case of \code{inner},
 and a "generated on <data>"-tag in case of \code{sub}.
 Of course, if \code{main} / \code{inner} / \code{sub} are \code{character}, this
 is used for the title; in case of \code{inner} it is then checked whether it
-has correct length. In all title arguments, the following patterns are substituted:
+has correct length. If argument \code{withSubst} is \code{TRUE}, in all title 
+and axis lable arguments, the following patterns are substituted:
 \describe{
 \item{\code{"\%C1"},\code{"\%C2"},[\code{"\%C3"},][\code{"\%C4"}]}{class of argument 
       \code{obj<i>}, i=1,..4}
@@ -180,6 +230,13 @@ as in \code{plot.default} (i.e. a vector of length 2) or a vector of
 length 2*(number of plotted dimensions); in the case of longer length, 
 these are the values for \code{ylim} for the plotted dimensions of the IC, 
 one pair for each dimension.
+
+In addition, argument \code{\dots} may contain arguments \code{panel.first},
+\code{panel.last}, i.e., hook expressions to be evaluated at the very beginning
+and at the very end of each panel (within the then valid coordinates).
+To be able to use these hooks for each panel individually, they may also be
+lists of expressions (of the same length as the number of panels and
+run through in the same order as the panels).
 }
 
 %\value{}
@@ -187,7 +244,7 @@ one pair for each dimension.
   Kohl, M. (2005) \emph{Numerical Contributions to the Asymptotic Theory of Robustness}. 
   Bayreuth: Dissertation.
 }
-\author{Peter Ruckdeschel \email{Peter.Ruckdeschel@itwm.fraunhofer.de}}
+\author{Peter Ruckdeschel \email{peter.ruckdeschel@uni-oldenburg.de}}
 %\note{}
 \seealso{\code{\link[distrMod]{L2ParamFamily-class}},
          \code{\link{IC-class}}, \code{\link[graphics]{plot}}}

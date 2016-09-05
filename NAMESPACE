@@ -4,6 +4,13 @@ import("distr")
 import("distrEx")
 import("distrMod")
 import("RandVar")
+importFrom("startupmsg", "buildStartupMessage", "infoShow")
+importFrom("grDevices", "colorRamp", "grey", "rgb")
+importFrom("graphics", "abline", "axis", "box", "lines", "matlines",
+           "matpoints", "mtext", "par", "points", "text", "title")
+importFrom("stats", "complete.cases", "dbinom", "dnorm", "fft",
+           "na.omit", "pbinom", "pnorm", "qnorm", "quantile",
+           "uniroot", "approxfun")
 
 exportClasses("Neighborhood", 
               "UncondNeighborhood", 
@@ -65,14 +72,14 @@ exportMethods("moveL2Fam2RefParam",
 exportMethods("ddPlot", "qqplot")
 exportMethods("cutoff.quantile", "cutoff.quantile<-")
 exportMethods("samplesize<-", "samplesize")
-exportMethods("getRiskFctBV")
+exportMethods("getRiskFctBV", "getFiRisk")
 export("oneStepEstimator", "kStepEstimator")
 export("ContNeighborhood", "TotalVarNeighborhood") 
 export("FixRobModel", "InfRobModel") 
 export("InfluenceCurve", "IC", "ContIC", "TotalVarIC")
 export(".eq", ".getDistr", "getBoundedIC")
 export("RobAStBaseOptions", "getRobAStBaseOption")
-export("cutoff","cutoff.chisq","cutoff.sememp")
+export("cutoff","cutoff.chisq","cutoff.sememp", "cutoff.quant")
 export("outlyingPlotIC", "RobAStBaseMASK")
 export("OMSRRisk","MBRRisk","RMXRRisk")
 export("getRiskFctBV")
