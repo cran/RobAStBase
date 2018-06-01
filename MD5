@@ -1,4 +1,4 @@
-cc9f35d585fac84075ddbd6f51192295 *DESCRIPTION
+a7a26e11b95255c9f0b2f48fa43bb6ab *DESCRIPTION
 926c81991af84ce52e2fbfd4d1cdf26d *NAMESPACE
 7942caee48cede4e93252fd578a378bc *R/00internal.R
 21572805b9c4584fab7c8817ed681432 *R/AllClass.R
@@ -30,7 +30,7 @@ d1277144d9ac72286eca897bf89db1ba *R/getRiskBV.R
 53ed5ce7f2d9539bdd55cc5080b1e205 *R/getRiskIC.R
 acb4a9ccabd637b19b847894841ed9a3 *R/getRiskIC_UnOvShoot.R
 1673305dff5c4bcc0a3d298ec46fb5af *R/getboundedIC.R
-0cf39127a7cb14312c4cab24a99c52f1 *R/infoPlot.R
+44fa368307e25f39d649f66cbf022cc4 *R/infoPlot.R
 175f93dafc7b1f0aec34f075fa37f410 *R/internalGridHelpers.R
 9a654038429916f2289ccf6ac3753647 *R/interpolRisks.R
 53d046bc0410c7b03c87c3b4047c9b29 *R/kStepEstimate.R
@@ -52,7 +52,7 @@ cf15eeaafe3a33e3466f2602e23b2ae8 *R/selectorder.R
 609142509fd75183e06dc687eae7dcec *R/utils.R
 db8256de5c7323ba6ef4af75d6a677be *inst/CITATION
 982da1cf3b48e8756f4cdc6eadefca3e *inst/MASKING
-c904579e3c68240713eaafd315403c6e *inst/NEWS
+3efdf5d3a3a363c60924511077e6714c *inst/NEWS
 f69ec810773d46afed5709268dd13240 *inst/TOBEDONE
 3619608c3d7b4de27c7d3d4e2ee1e22f *inst/doc/InfluenceCurve.eps
 fd3eb07ffba5023f143ad73f63773660 *inst/doc/InfluenceCurve.pdf
@@ -62,7 +62,7 @@ fcd0052947023304fec50a259f98fcba *inst/doc/Neighborhood.pdf
 48208b0484a71c10bcabcbb5331ccefa *inst/doc/RobModel.pdf
 a5bda33e79604a1242b1674b27712060 *inst/doc/RobWeight.eps
 fe70e073d8ab4332c5b95e4bcc19368b *inst/doc/RobWeight.pdf
-0493d5ef8e4428f9387710cf263bb548 *man/0RobAStBase-package.Rd
+05eae37e5fff68748158422e86d7ab86 *man/0RobAStBase-package.Rd
 c44c9653c9c74002affbcde6e18fa055 *man/ALEstimate-class.Rd
 59b22d076ad20395dc212ca69d92ac5c *man/BdStWeight-class.Rd
 efb21aa40e6d4787256c6fcd6f5d6c5d *man/BoundedWeight-class.Rd
