@@ -38,11 +38,13 @@ conv.tnorm <- function(z, A, B, mu, n, m){
     return(pnfun2(z))
 }
 
-
+        
 setMethod("getFiRisk", signature(risk = "fiUnOvShoot",
                                  Distr = "Norm",
-                                 neighbor = "ContNeighborhood"),
-    function(risk, Distr, neighbor, clip, stand, sampleSize, Algo, cont){
+                                 neighbor = "ContNeighborhood"
+                                 ),
+    function(risk, Distr, neighbor, clip, stand, 
+             sampleSize, Algo, cont){
         eps <- neighbor@radius
         tau <- risk@width
         n <- sampleSize
@@ -163,6 +165,7 @@ setMethod("getFiRisk", signature(risk = "fiUnOvShoot",
                 erg <- sum(summe2*K2)
             }
         }else{
+
             M <- 2^m
             h <- 2*clip/M
             x <- seq(from = -clip, to = clip, by = h)

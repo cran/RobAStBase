@@ -119,6 +119,7 @@ InfoPlot <- function(IC, data,...,alpha.trsp = 100,with.legend = TRUE, rescale =
   argsList <- c(list(object = substitute(IC)
                      ,data = substitute(data)
                      ,withSweave = substitute(getdistrOption("withSweave"))
+                     ,col = substitute(par("col"))
                      ,lwd = substitute(par("lwd"))
                      ,lty = substitute("solid")
                      ,colI = substitute(grey(0.5))
@@ -137,19 +138,34 @@ InfoPlot <- function(IC, data,...,alpha.trsp = 100,with.legend = TRUE, rescale =
                      ,legend.bg = substitute("white")
                      ,legend.location = substitute("bottomright")
                      ,legend.cex = substitute(0.8)
+                     ,scaleX.fct = NULL
+                     ,scaleX.inv = NULL
+                     ,scaleY.fct = pnorm
+                     ,scaleY.inv=qnorm
                      ,scaleN = substitute(9)
+                     ,x.ticks = NULL
+                     ,y.ticks = NULL
                      ,mfColRow = substitute(TRUE)
                      ,to.draw.arg = substitute(NULL)
                      ,cex.pts = substitute(1)
+                     ,cex.pts.fun = substitute(NULL)
                      ,col.pts = substitute(addAlphTrsp2col(rgb(0,255,0,maxColorValue=255), substitute(alpha.trsp)))
                      ,pch.pts = substitute(19)
+                     ,cex.npts = substitute(2)
+                     ,cex.npts.fun = substitute(NULL)
+                     ,col.npts = substitute(addAlphTrsp2col(rgb(0,255,0,maxColorValue=255), substitute(alpha.trsp)))
+                     ,pch.npts = substitute(20)
                      ,jitter.fac = substitute(1)
                      ,with.lab = substitute(FALSE)
+                     ,cex.lbs = substitute(1)
+                     ,adj.lbs = substitute(c(0,0))
+                     ,col.lbs = substitute(par("col"))
                      ,lab.pts = substitute(NULL)
                      ,lab.font = substitute(NULL)
                      ,alpha.trsp = substitute(alpha.trsp)
                      ,which.lbs = substitute(NULL)
                      ,which.Order  = substitute(NULL)
+                     ,which.nonlbs = substitute(NULL)
                      ,return.Order = substitute(FALSE)
                      ,ylab.abs = substitute("absolute information")
                      ,ylab.rel= substitute("relative information")
@@ -189,12 +205,14 @@ InfoPlot <- function(IC, data,...,alpha.trsp = 100,with.legend = TRUE, rescale =
   ###
   ### 4. evaluate the call (i.e., produce the graphic)
   ###
-  eval(mycall)
+  retV <- eval(mycall)
+  retV$wrapcall <- mc
+  retV$wrappedcall <- mycall
   ###
   ### 5. return the call (if withCall==TRUE)
   ###
   if(mc$withCall) print(mycall)
-
+  return(invisible(retV))
 }
 
 
@@ -289,6 +307,9 @@ PlotIC <- function(IC, y,...,alpha.trsp = 100, with.legend = TRUE, rescale = FAL
 
   argsList <- c(list(x = substitute(IC)
                      ,withSweave = substitute(getdistrOption("withSweave"))
+                     ,col = substitute(par("col"))
+                     ,lwd = substitute(par("lwd"))
+                     ,lty = substitute("solid")
                      ,main = substitute(FALSE)
                      ,inner = substitute(TRUE)
                      ,sub = substitute(FALSE)
@@ -297,7 +318,7 @@ PlotIC <- function(IC, y,...,alpha.trsp = 100, with.legend = TRUE, rescale = FAL
                      ,bmar = substitute(par("mar")[1])
                      ,tmar = substitute(par("mar")[3])
                      ,with.automatic.grid = substitute(TRUE)
-                     ,with.legend = substitute(FALSE)
+                     ,with.legend = substitute(TRUE)
                      ,legend = substitute(NULL)
                      ,legend.bg = substitute("white")
                      ,legend.location = substitute("bottomright")
@@ -308,7 +329,14 @@ PlotIC <- function(IC, y,...,alpha.trsp = 100, with.legend = TRUE, rescale = FAL
                      ,col.MBR = substitute(par("col"))
                      ,lty.MBR = substitute("dashed")
                      ,lwd.MBR = substitute(0.8)
+                     ,x.vec = substitute(NULL)
+                     ,scaleX.fct = NULL
+                     ,scaleX.inv = NULL
+                     ,scaleY.fct = pnorm
+                     ,scaleY.inv=qnorm
                      ,scaleN = substitute(9)
+                     ,x.ticks = NULL
+                     ,y.ticks = NULL
                      ,mfColRow = substitute(TRUE)
                      ,to.draw.arg = substitute(NULL)
                      ,adj = substitute(0.5)
@@ -316,30 +344,38 @@ PlotIC <- function(IC, y,...,alpha.trsp = 100, with.legend = TRUE, rescale = FAL
                      ,cex.lab = substitute(1.5)
                      ,cex = substitute(1.5)
                      ,bty = substitute("o")
-                     ,col = substitute("blue")
                      ,panel.first= substitute(NULL)
                      ,panel.last= substitute(NULL)
                      ,withSubst = substitute(TRUE)
     ), scaleList)
   if(!missing(y)){c(argsList, y = substitute(y)
-                     ,cex.pts = substitute(0.3)
+                     ,cex.pts = substitute(1)
+                     ,cex.pts.fun = substitute(NULL)
                      ,col.pts = substitute(addAlphTrsp2col(rgb(0,255,0,maxColorValue=255), substitute(alpha.trsp)))
                      ,pch.pts = substitute(19)
+                     ,cex.npts = substitute(2)
+                     ,cex.npts.fun = substitute(NULL)
+                     ,col.npts = substitute(addAlphTrsp2col(rgb(0,255,0,maxColorValue=255), substitute(alpha.trsp)))
+                     ,pch.npts = substitute(20)
                      ,jitter.fac = substitute(1)
                      ,with.lab = substitute(FALSE)
+                     ,cex.lbs = substitute(1)
+                     ,adj.lbs = substitute(c(0,0))
+                     ,col.lbs = substitute(par("col"))
                      ,lab.pts = substitute(NULL)
                      ,lab.font = substitute(NULL)
                      ,alpha.trsp = substitute(alpha.trsp)
                      ,which.lbs = substitute(NULL)
                      ,which.Order  = substitute(NULL)
-                     ,return.Order = substitute(FALSE)
-                     ,scaleN = substitute(9)
+                     ,which.nonlbs = substitute(NULL)
+                     ,attr.pre = substitute(FALSE)
                      ,adj = substitute(0.5)
                      ,cex.main = substitute(1.5)
                      ,cex.lab = substitute(1.5)
                      ,cex = substitute(1.5)
                      ,bty = substitute("o"))
   }
+
 
   ##parameter for plotting
   if(mc$with.legend)
@@ -365,11 +401,14 @@ PlotIC <- function(IC, y,...,alpha.trsp = 100, with.legend = TRUE, rescale = FAL
   ###
   ### 4. evaluate the call (i.e., produce the graphic)
   ###
-  eval(mycall)
+  retV <- eval(mycall)
+  retV$wrapcall <- mc
+  retV$wrappedcall <- mycall
   ###
   ### 5. return the call (if withCall==TRUE)
   ###
   if(mc$withCall) print(mycall)
+  return(invisible(retV))
 
 }
 
@@ -481,6 +520,8 @@ ComparePlot <- function(IC1, IC2, y, ..., IC3=NULL, IC4=NULL,
                      ,obj4 = NULL
                      ,forceSameModel = FALSE
                      ,data = NULL
+                     ,lwd = substitute(par("lwd"))
+                     ,lty = substitute("solid")
                      ,withSweave = substitute(getdistrOption("withSweave"))
                      ,main = substitute(FALSE)
                      ,inner = substitute(TRUE)
@@ -501,10 +542,8 @@ ComparePlot <- function(IC1, IC2, y, ..., IC3=NULL, IC4=NULL,
                      ,col.MBR = substitute(par("col"))
                      ,lty.MBR = substitute("dashed")
                      ,lwd.MBR = substitute(0.8)
-                     ,scaleX = FALSE
                      ,scaleX.fct = NULL
                      ,scaleX.inv = NULL
-                     ,scaleY = FALSE
                      ,scaleY.fct = pnorm
                      ,scaleY.inv=qnorm
                      ,scaleN = 9
@@ -513,15 +552,24 @@ ComparePlot <- function(IC1, IC2, y, ..., IC3=NULL, IC4=NULL,
                      ,mfColRow = substitute(TRUE)
                      ,to.draw.arg = substitute(NULL)
                      ,cex.pts = substitute(1)
+                     ,cex.pts.fun = substitute(NULL)
                      ,col.pts = substitute(c(1,2,3,4))
                      ,pch.pts = substitute(19)
+                     ,cex.npts = substitute(2)
+                     ,cex.npts.fun = substitute(NULL)
+                     ,col.npts = substitute(addAlphTrsp2col(rgb(0,255,0,maxColorValue=255), substitute(alpha.trsp)))
+                     ,pch.npts = substitute(20)
                      ,jitter.fac = substitute(1)
                      ,with.lab = substitute(FALSE)
+                     ,cex.lbs = substitute(1)
+                     ,adj.lbs = substitute(c(0,0))
+                     ,col.lbs = substitute(par("col"))
                      ,lab.pts = substitute(NULL)
                      ,lab.font = substitute(NULL)
                      ,alpha.trsp = substitute(alpha.trsp)
                      ,which.lbs = substitute(NULL)
                      ,which.Order  = substitute(NULL)
+                     ,which.nonlbs = substitute(NULL)
                      ,return.Order = substitute(FALSE)
                      ,adj = substitute(0.5)
                      ,cex.main = substitute(1.5)
@@ -565,11 +613,14 @@ ComparePlot <- function(IC1, IC2, y, ..., IC3=NULL, IC4=NULL,
   ###
   ### 4. evaluate the call (i.e., produce the graphic)
   ###
-  eval(mycall)
+  retV <- eval(mycall)
+  retV$wrapcall <- mc
+  retV$wrappedcall <- mycall
   ###
   ### 5. return the call (if withCall==TRUE)
   ###
   if(mc$withCall) print(mycall)
+  return(invisible(retV))
 
 }
 

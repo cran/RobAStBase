@@ -5,7 +5,7 @@ import("distrEx")
 import("distrMod")
 import("RandVar")
 importFrom("startupmsg", "buildStartupMessage", "infoShow")
-importFrom("grDevices", "colorRamp", "grey", "rgb")
+importFrom("grDevices", "colorRamp", "grey", "rgb", "dev.list")
 importFrom("graphics", "abline", "axis", "box", "lines", "matlines",
            "matpoints", "mtext", "par", "points", "text", "title")
 importFrom("stats", "complete.cases", "dbinom", "dnorm", "fft",
@@ -28,7 +28,7 @@ exportClasses("RobAStControl", "RobWeight", "BoundedWeight",
 exportClasses("ALEstimate", "kStepEstimate", "MEstimate")
 exportClasses("cutoff")
 exportClasses("interpolRisk", "OMSRRisk","MBRRisk","RMXRRisk")
-exportClasses("StartClass", "pICList", "OptionalpICList")
+exportClasses("StartClass", "pICList", "OptionalpICList", "OptionalCall")
 exportMethods("show", 
               "plot")
 exportMethods("type", "radius", "radius<-")
@@ -51,7 +51,8 @@ exportMethods("Curve",
               "neighborRadius", "neighborRadius<-", 
               "clipLo", "clipLo<-", 
               "clipUp", "clipUp<-",
-              "optIC", "start", "startval", "pICList") 
+              "optIC", "start", "startval", "pICList", 
+			  "robestCall") 
 exportMethods("locMEstimator")
 exportMethods("weight", "weight<-", 
               "getweight", 
@@ -69,7 +70,7 @@ exportMethods("pICList","ICList", "ksteps", "uksteps",
 exportMethods("moveL2Fam2RefParam",
 			  "moveICBackFromRefParam",
 			  "rescaleFunction")			  
-exportMethods("ddPlot", "qqplot")
+exportMethods("ddPlot", "qqplot", "returnlevelplot")
 exportMethods("cutoff.quantile", "cutoff.quantile<-")
 exportMethods("samplesize<-", "samplesize")
 exportMethods("getRiskFctBV", "getFiRisk")

@@ -2,6 +2,27 @@
 ## k-step estimator
 ###############################################################################
 
+.fix.scalename <- function(obj, scalename, estname){
+        hasdim <- !is.null(dim(obj))
+        n.obj <- if(hasdim) rownames(obj) else names(obj)
+        if(!is.na(scalename)) if(scalename!="") {
+           if((! (scalename %in% estname)) && "scale" %in% estname)
+                estname[estname=="scale"] <- scalename
+
+           if((! (scalename%in% n.obj)) && "scale" %in% n.obj){
+              n.obj[n.obj=="scale"] <- scalename
+              if(hasdim) rownames(obj) <- n.obj else names(obj) <- n.obj
+           }else{
+              if(length(n.obj)==0) n.obj <- rep("", length(estname))
+              if(all(n.obj=="")) {
+              if(hasdim) rownames(obj) <- estname else names(obj) <- estname
+              }
+           }
+        }
+        return(obj)
+}
+
+setMethod("neighborRadius","ANY",function(object)NA)
 
 ### no dispatch on top layer -> keep product structure of dependence
 kStepEstimator <- function(x, IC, start = NULL, steps = 1L,
@@ -11,7 +32,8 @@ kStepEstimator <- function(x, IC, start = NULL, steps = 1L,
                            withICList = getRobAStBaseOption("withICList"),
                            withPICList = getRobAStBaseOption("withPICList"),
                            na.rm = TRUE, startArgList = NULL, ...,
-                           withLogScale = TRUE, withEvalAsVar = TRUE){
+                           withLogScale = TRUE, withEvalAsVar = TRUE,
+                           withMakeIC = FALSE){
 
         if(missing(IC.UpdateInKer)) IC.UpdateInKer <- NULL
 ## save call
@@ -88,6 +110,12 @@ kStepEstimator <- function(x, IC, start = NULL, steps = 1L,
         start.val <- matrix(theta,ncol=1)
         rownames(u.start.val) <- u.est.names
         rownames(start.val) <- est.names
+#        print(theta)
+        theta <- .fix.scalename(theta, sclname, est.names)
+#        print(theta)
+#        print(u.theta)
+        u.theta <- .fix.scalename(u.theta, sclname, u.est.names)
+#        print(u.theta)
 
 ### shall intermediate IC's / pIC's be stored?
         pICList <- if(withPICList) vector("list", steps) else NULL
@@ -104,7 +132,8 @@ kStepEstimator <- function(x, IC, start = NULL, steps = 1L,
         ### update - function
         updateStep <- function(u.theta, theta, IC, L2Fam, Param,
                                withPreModif = FALSE,
-                               withPostModif = TRUE, with.u.var = FALSE
+                               withPostModif = TRUE, with.u.var = FALSE,
+                               oldmodifIC = NULL
                                ){
 
                 if(withPreModif){
@@ -117,6 +146,10 @@ kStepEstimator <- function(x, IC, start = NULL, steps = 1L,
                                .withL2derivDistr = L2Fam@.withEvalL2derivDistr)
 #                   print(L2Fam)
                    IC <- modifyIC(IC)(L2Fam, IC)
+                   if(steps==1L &&withMakeIC){
+                      IC <- makeIC(IC, L2Fam)
+                      IC@modifyIC <- oldmodifIC
+                    }
  #                  print(IC)
                 }
 
@@ -160,11 +193,14 @@ kStepEstimator <- function(x, IC, start = NULL, steps = 1L,
                                u.theta[sclname] <- scl * exp(correct[sclname]/scl)
                      }else u.theta <- u.theta + correct
 
-                     theta <- (tf$fct(u.theta))$fval
+                     theta <- (tf$fct(u.theta[idx]))$fval
                 }else{
 #                     print("HU2!")
                      correct <- rowMeans(evalRandVar(IC.c, x0), na.rm = na.rm )
                      iM <- is.matrix(theta)
+#                     print(sclname)
+#                     print(names(theta))
+#                     print(str(theta))
                      names(correct) <- if(iM) rownames(theta) else names(theta)
                      if(logtrf){
                         scl <- if(iM) theta[sclname,1] else theta[sclname]
@@ -231,9 +267,14 @@ kStepEstimator <- function(x, IC, start = NULL, steps = 1L,
         rownames(uksteps) <- u.est.names
         if(!is(modifyIC(IC), "NULL") ){
            for(i in 1:steps){
+               modif.old <- modifyIC(IC)
                if(i>1){
                   IC <- upd$IC
                   L2Fam <- upd$L2Fam
+                  if((i==steps)&&withMakeIC){
+                     IC <- makeIC(IC,L2Fam)
+                     IC@modifyIC <- modif.old
+                  }
                   Param <- upd$Param
                   tf <- trafo(L2Fam, Param)
                   withPre <- FALSE
@@ -241,8 +282,10 @@ kStepEstimator <- function(x, IC, start = NULL, steps = 1L,
                upd <- updateStep(u.theta,theta,IC, L2Fam, Param,
                                  withPreModif = withPre,
                                  withPostModif = (steps>i) | useLast,
-                                 with.u.var = i==steps)
+                                 with.u.var = i==steps, oldmodifIC = modif.old)
                uksteps[,i] <- u.theta <- upd$u.theta
+#               print(str(upd$theta))
+#               print(nrow(ksteps))
                ksteps[,i] <- theta <- upd$theta
                if(withICList)
                   ICList[[i]] <- new("InfluenceCurve",
@@ -264,6 +307,7 @@ kStepEstimator <- function(x, IC, start = NULL, steps = 1L,
               tf <- trafo(L2Fam, Param)
               Infos <- rbind(Infos, c("kStepEstimator",
                "computation of IC, trafo, asvar and asbias via useLast = TRUE"))
+              if(withMakeIC) IC <- makeIC(IC, L2Fam)
            }else{
               Infos <- rbind(Infos, c("kStepEstimator",
                "computation of IC, trafo, asvar and asbias via useLast = FALSE"))
@@ -271,7 +315,8 @@ kStepEstimator <- function(x, IC, start = NULL, steps = 1L,
         }else{
            if(steps > 1)
               stop("slot 'modifyIC' of 'IC' is 'NULL'!")
-           upd <- updateStep(u.theta,theta,IC, L2Fam, Param, withModif = FALSE)
+           upd <- updateStep(u.theta,theta,IC, L2Fam, Param,withPreModif = FALSE,
+                               withPostModif = TRUE)
            theta <- upd$theta
            u.theta <- upd$u.theta
            var0 <- upd$var
@@ -307,7 +352,7 @@ kStepEstimator <- function(x, IC, start = NULL, steps = 1L,
                 else
                     asVar <- Risks(IC)$asCov$value
            else
-                asVar <- getRiskIC(IC, risk = asCov())$asCov$value
+                asVar <- getRiskIC(IC, risk = asCov(), withCheck = FALSE)$asCov$value
 
         }else asVar <- var0
 #        print(asVar)
@@ -316,11 +361,12 @@ kStepEstimator <- function(x, IC, start = NULL, steps = 1L,
                     asBias <- neighborRadius(IC)*Risks(IC)$asBias
                 else
                     asBias <- neighborRadius(IC)*Risks(IC)$asBias$value
+                if(is.na(asBias)) asBias <- NULL
         }else{
                 if(is(IC, "HampIC")){
                     r <- neighborRadius(IC)
                     asBias <- r*getRiskIC(IC, risk = asBias(),
-                                          neighbor = neighbor(IC))$asBias$value
+                                          neighbor = neighbor(IC), withCheck = FALSE)$asBias$value
                 }else{
                     asBias <- NULL
                 }
