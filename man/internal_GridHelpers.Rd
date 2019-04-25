@@ -32,9 +32,6 @@ These functions are internally used helper functions for \code{\link{plot}},
   \item{scaleY.fct}{an isotone, vectorized function mapping for each coordinate the
             range of the respective coordinate of the IC
             to [0,1]; defaulting to the cdf of \eqn{{\cal N}(0,1)}{N(0,1)}.}
-  \item{logArg}{a character string which contains "x" if the x axis is to be logarithmic,
-            "y" if the y axis is to be logarithmic and "xy" or "yx" if both axes are
-            to be logarithmic; see \code{\link{plot.default}}.}
   \item{to.draw.arg}{Either \code{NULL} (default;
                           everything is plotted) or a vector of either integers
                          (the indices of the subplots to be drawn) or characters
@@ -49,6 +46,7 @@ These functions are internally used helper functions for \code{\link{plot}},
   \item{IC}{object of class \code{"InfluenceCurve"} }
   \item{isInfoPlot}{logical; is this function to be used in \code{infoPlot} or
                     (\code{TRUE}) in another plot (\code{FALSE})? }
+  \item{logArg}{a character with \code{log}-arguments for  \code{plot}. }
 }
 \details{
 \code{.getDimsTD} computes the number of panels to be plotted.
