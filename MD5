@@ -1,4 +1,4 @@
-e17f50b79f61a3c4b60e4481e7c8548f *DESCRIPTION
+cafe74615563407c01ed72378f0909b4 *DESCRIPTION
 700375eda3ade2a991a5340df53b323c *NAMESPACE
 7942caee48cede4e93252fd578a378bc *R/00internal.R
 756e63e3e8c7d6c62f5fb3a5c312edd1 *R/AllClass.R
@@ -57,7 +57,7 @@ b263ac6288a023b475a3250e61be4a56 *R/plotUtils.R
 3da6c12297838a862c9a6b3936cf9421 *R/utils.R
 db8256de5c7323ba6ef4af75d6a677be *inst/CITATION
 982da1cf3b48e8756f4cdc6eadefca3e *inst/MASKING
-0b13d1a93a3f9e1a63956f54f383cef1 *inst/NEWS
+fc4bb22749b659d6792966dd078787b8 *inst/NEWS
 cf3e31d65c02e11362823a1364893a89 *inst/TOBEDONE
 d467094c96c55e2245b8a94fc9fe41cf *inst/chkTimeCode/TimingChecks.R
 663519b0d61d803786cab7840e565e7a *inst/doc/InfluenceCurve.eps
@@ -68,7 +68,7 @@ b1a0c0ccc1171869a4c7ba84ad8c011f *inst/doc/InfluenceCurve.pdf
 167c630ea62b18a0227951c884dcbad4 *inst/doc/RobModel.pdf
 e59b7ce489cebba8cf71c8f915d0ae45 *inst/doc/RobWeight.eps
 723baa0c2ca805886027df15fba2cf4e *inst/doc/RobWeight.pdf
-a87faafffe2189180225b2e7dc4bc74d *man/0RobAStBase-package.Rd
+4ce5a0ccd107ee21b05c6213b30c5d69 *man/0RobAStBase-package.Rd
 f2b688887f7f1c7206d2a28150c6df28 *man/ALEstimate-class.Rd
 59b22d076ad20395dc212ca69d92ac5c *man/BdStWeight-class.Rd
 efb21aa40e6d4787256c6fcd6f5d6c5d *man/BoundedWeight-class.Rd
@@ -128,7 +128,7 @@ cc83b33236452f186d54d3c519bf9632 *man/kStepEstimate-class.Rd
 14ef8f58b340a71a78664933595705de *man/kStepEstimator.Rd
 afbfc990cf3b92633cf4dc5787fcd5f4 *man/kStepEstimatorStart-methods.Rd
 a6686db5d233cac833c6e5191284ece6 *man/locMEstimator.Rd
-34d309d0bc834deb8d4d1a5431dc4ff8 *man/makeIC-methods.Rd
+a53f568301b4d0aa70faf79ff7b246db *man/makeIC-methods.Rd
 a12119fd17d25afd28c6f0fd297099f0 *man/masked-methods.Rd
 6e962155d33e676a16cdf22a93202a9d *man/mergelists.Rd
 2c888094c726a7c13668c4143d9aaa38 *man/mov2bckRef-methods.Rd
