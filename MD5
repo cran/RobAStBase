@@ -1,4 +1,4 @@
-cafe74615563407c01ed72378f0909b4 *DESCRIPTION
+d42ff6f42925baa76627762ff725bf92 *DESCRIPTION
 700375eda3ade2a991a5340df53b323c *NAMESPACE
 7942caee48cede4e93252fd578a378bc *R/00internal.R
 756e63e3e8c7d6c62f5fb3a5c312edd1 *R/AllClass.R
@@ -57,7 +57,7 @@ b263ac6288a023b475a3250e61be4a56 *R/plotUtils.R
 3da6c12297838a862c9a6b3936cf9421 *R/utils.R
 db8256de5c7323ba6ef4af75d6a677be *inst/CITATION
 982da1cf3b48e8756f4cdc6eadefca3e *inst/MASKING
-fc4bb22749b659d6792966dd078787b8 *inst/NEWS
+66312192229f57a334fca59ba0577907 *inst/NEWS
 cf3e31d65c02e11362823a1364893a89 *inst/TOBEDONE
 d467094c96c55e2245b8a94fc9fe41cf *inst/chkTimeCode/TimingChecks.R
 663519b0d61d803786cab7840e565e7a *inst/doc/InfluenceCurve.eps
@@ -68,7 +68,7 @@ b1a0c0ccc1171869a4c7ba84ad8c011f *inst/doc/InfluenceCurve.pdf
 167c630ea62b18a0227951c884dcbad4 *inst/doc/RobModel.pdf
 e59b7ce489cebba8cf71c8f915d0ae45 *inst/doc/RobWeight.eps
 723baa0c2ca805886027df15fba2cf4e *inst/doc/RobWeight.pdf
-4ce5a0ccd107ee21b05c6213b30c5d69 *man/0RobAStBase-package.Rd
+ce8df5174c2026238287507f0f47ea2b *man/0RobAStBase-package.Rd
 f2b688887f7f1c7206d2a28150c6df28 *man/ALEstimate-class.Rd
 59b22d076ad20395dc212ca69d92ac5c *man/BdStWeight-class.Rd
 efb21aa40e6d4787256c6fcd6f5d6c5d *man/BoundedWeight-class.Rd
@@ -119,7 +119,7 @@ a456bf6c29d51e14febf1541d6944605 *man/getBoundedIC.Rd
 3aad70bdbd1ceacdc6ccc649664434b5 *man/getweight.Rd
 87890457c830dc4333cf2e760353505c *man/infoPlot.Rd
 d6651b62059c74b281189dcbd122834c *man/internal_GridHelpers.Rd
-836864207a9b93b73e6726fa81ec933c *man/internal_plots.Rd
+80cc912cc69a0b6f4efc4f4c15e12a52 *man/internal_plots.Rd
 8dbea7b4600b5a7b2d4ac6f78f2ba119 *man/internals-qqplot.Rd
 ffcdaef42ea85101f3d3c43ceb9da24c *man/internals.Rd
 2ac6e15f1f47a698df2526db22d60d37 *man/internals_ddPlot.Rd

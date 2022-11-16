@@ -62,10 +62,10 @@ These functions are internally used helper functions for \code{\link{plot}},
   \item{fct}{for \code{.rescalefct}: (vectorized) function from reals to reals: function to produce y values.
   for \code{.SelectOrderData}: (vectorized) function from data to reals:
     function to produce the ordering.}
-  \item{xlim}{numeric vector of length 2: limits of the plotted x region (in original
-              scale).}
-  \item{ylim}{numeric vector of length 2: limits of the plotted y region (in original
-              scale).}
+  \item{xlim}{for one-panel plots: numeric vector of length 2: limits of the plotted x region (in original
+              scale), for multi-panel plots: can be matrix valued (with two columns and as many rows as panels).}
+  \item{ylim}{for one-panel plots: numeric vector of length 2: limits of the plotted y region (in original
+              scale), for multi-panel plots: can be matrix valued (with two columns and as many rows as panels).}
   \item{finiteEndpoints}{a logical of length 4: are the  unscaled \code{xlim[1]},
                          \code{xlim[2]}, \code{ylim[1]}, \code{ylim[2]} finite? }
   \item{x.ticks}{numeric: coordinates in original scale of user-given ticks on x-axis.}
@@ -95,7 +95,6 @@ These functions are internally used helper functions for \code{\link{plot}},
    \code{scaleY} are both \code{FALSE} and, simultaneously, \code{x.ticks} and
    \code{y.ticks} are both \code{NULL}, a respective box is drawn around the
    panel; otherwise no box is drawn in this case. }
-  \item{dots}{a list; intended to be the \code{\dots} argument of \code{plot}. }
   \item{y}{input at which to compute \code{cex}-values (for these \code{y} values)}
   \item{y1}{secondary input of \code{y}-values which is also used for
          computaiton but not plotted itself at this \code{cex} value.}
@@ -104,48 +103,46 @@ These functions are internally used helper functions for \code{\link{plot}},
   \item{cex}{basic factor for \code{cex}}
   \item{fun}{(optional) function to compute the \code{cex}-values acc. to the
               \code{y} and \code{y1}-values.}
-\item{L2Fam}{L2-Family},
-\item{to.draw.arg}{resp. argument from the user-interface of \code{comparePlot}, \code{infoPlot}, and the
-\code{plot}-method for ICs, i.e., either \code{NULL} (default;
-everything is plotted) or a vector of either integers (the indices of the
-subplots to be drawn) or characters --- the names of the subplots to be drawn:
-these names are to be chosen either among the row names of the trafo matrix
-\code{rownames(trafo(eval(x@CallL2Fam)@param))} or if the last expression is
-\code{NULL} a vector \code{"dim<dimnr>"}, \code{dimnr} running through
-the number of rows of the trafo matrix.}
-\item{panelFirst}{the \code{panel.first} expression to be extended}
-\item{distr}{underlying distribution of the observations}
-\item{dims0}{number of panels to be plotted}
-\item{lty}{the \code{lty} argument used in the user interface}
-\item{x.vec}{the resp. argument from the user interface.}
-\item{xm}{minimal x-value}
-\item{xM}{maximal x-value}
-\item{dots}{the internal \code{dots}-variable to be changed}
-\item{dotsP}{the internal \code{dotsP}-variable to be changed (taking up
-  additional arguments for the calls to \code{plot})}
-\item{xlim}{the possibly matrix-valued argument of the user interface}
-\item{ylim}{the possibly matrix-valued argument of the user interface}
-\item{withSubst}{should substitutions be made in titles?}
-\item{presubArg2}{title part}
-\item{presubArg3}{title part}
-\item{mainText}{text to be used for \code{main}}
-\item{inner}{the resp. argument from the user interface.}
-\item{dims}{the dimension of the pIC}
-\item{to.draw}{the actual numbers / names of the plotted panels.}
-\item{trafO}{the parameter transformation of  \code{L2fam@param}.}
-\item{obj}{the object from which to draw the name (of the plot).}
-\item{type}{for which type of plot should the titles be produced -- \code{"info"},
-\code{"all"} or \code{compare}.}
-\item{bmar}{resp. argument from the user-interface of \code{comparePlot}, \code{infoPlot}, and the
-\code{plot}-method for ICs.}
-\item{tmar}{resp. argument from the user-interface of \code{comparePlot}, \code{infoPlot}, and the
-\code{plot}-method for ICs.}
-\item{Abs}{additional text template used in \code{infoPlot}.}
-\item{with.automatic.grid}{}
-\item{pF.0}{the \code{panel.first} expression given by rhe user}
-\item{pL.0}{the \code{panel.last} expression  given by rhe user}
-\item{logArg}{a character vector with \code{log}-arguments for  \code{plot}
-for each of the plotted panels.}
+  \item{L2Fam}{L2-Family},
+  \item{to.draw.arg}{resp. argument from the user-interface of \code{comparePlot},        
+        \code{infoPlot}, and the \code{plot}-method for ICs, i.e., either \code{NULL} 
+        (default; everything is plotted) or a vector of either integers (the indices 
+        of the subplots to be drawn) or characters --- the names of the subplots 
+        to be drawn: these names are to be chosen either among the row names of 
+        the trafo matrix \code{rownames(trafo(eval(x@CallL2Fam)@param))} or if 
+        the last expression is \code{NULL} a vector \code{"dim<dimnr>"}, \code{dimnr} 
+        running through the number of rows of the trafo matrix.}
+  \item{panelFirst}{the \code{panel.first} expression to be extended}
+  \item{distr}{underlying distribution of the observations}
+  \item{dims0}{number of panels to be plotted}
+  \item{lty}{the \code{lty} argument used in the user interface}
+  \item{x.vec}{the resp. argument from the user interface.}
+  \item{xm}{minimal x-value}
+  \item{xM}{maximal x-value}
+  \item{dotsP}{the internal \code{dotsP}-variable to be changed (taking up
+        additional arguments for the calls to \code{plot}); see also Details 
+        section.}
+  \item{withSubst}{should substitutions be made in titles?}
+  \item{presubArg2}{title part}
+  \item{presubArg3}{title part}
+  \item{mainText}{text to be used for \code{main}}
+  \item{inner}{the resp. argument from the user interface.}
+  \item{dims}{the dimension of the pIC}
+  \item{to.draw}{the actual numbers / names of the plotted panels.}
+  \item{trafO}{the parameter transformation of  \code{L2fam@param}.}
+  \item{obj}{the object from which to draw the name (of the plot).}
+  \item{type}{for which type of plot should the titles be produced -- \code{"info"},
+  \code{"all"} or \code{compare}.}
+  \item{bmar}{resp. argument from the user-interface of \code{comparePlot}, 
+        \code{infoPlot}, and the \code{plot}-method for ICs.}
+  \item{tmar}{resp. argument from the user-interface of \code{comparePlot}, 
+        \code{infoPlot}, and the \code{plot}-method for ICs.}
+  \item{Abs}{additional text template used in \code{infoPlot}.}
+  \item{with.automatic.grid}{generate a grid automatically. }
+  \item{pF.0}{the \code{panel.first} expression given by rhe user}
+  \item{pL.0}{the \code{panel.last} expression  given by rhe user}
+  \item{logArg}{a character vector with \code{log}-arguments for \code{plot}
+        for each of the plotted panels.}
 }
 \details{
 \code{.rescalefct} rescales, if necessary, x and y axis for use in plot
