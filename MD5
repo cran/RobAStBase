@@ -1,4 +1,4 @@
-a2856bfe20a6724ed0cc400565d2554f *DESCRIPTION
+324734a6e0df88680bdf24099d0afaa6 *DESCRIPTION
 700375eda3ade2a991a5340df53b323c *NAMESPACE
 79a9e10df092b0eedac72afa02289948 *R/00internal.R
 756e63e3e8c7d6c62f5fb3a5c312edd1 *R/AllClass.R
@@ -57,7 +57,7 @@ b263ac6288a023b475a3250e61be4a56 *R/plotUtils.R
 3da6c12297838a862c9a6b3936cf9421 *R/utils.R
 6ad1717813fde747d02a63b16b56cee0 *inst/CITATION
 982da1cf3b48e8756f4cdc6eadefca3e *inst/MASKING
-4416fb3d67425f9d9d8bec377d0de101 *inst/NEWS
+f14f60290d2ccd9744f0540a6b22230d *inst/NEWS
 cf3e31d65c02e11362823a1364893a89 *inst/TOBEDONE
 d467094c96c55e2245b8a94fc9fe41cf *inst/chkTimeCode/TimingChecks.R
 663519b0d61d803786cab7840e565e7a *inst/doc/InfluenceCurve.eps
@@ -68,7 +68,7 @@ b1a0c0ccc1171869a4c7ba84ad8c011f *inst/doc/InfluenceCurve.pdf
 167c630ea62b18a0227951c884dcbad4 *inst/doc/RobModel.pdf
 e59b7ce489cebba8cf71c8f915d0ae45 *inst/doc/RobWeight.eps
 723baa0c2ca805886027df15fba2cf4e *inst/doc/RobWeight.pdf
-4ecbb321db6745f3a5b93de95f604fbd *man/0RobAStBase-package.Rd
+235fffcd6856a3ec3bfe4f82e7e57576 *man/0RobAStBase-package.Rd
 f2b688887f7f1c7206d2a28150c6df28 *man/ALEstimate-class.Rd
 59b22d076ad20395dc212ca69d92ac5c *man/BdStWeight-class.Rd
 efb21aa40e6d4787256c6fcd6f5d6c5d *man/BoundedWeight-class.Rd
@@ -92,7 +92,7 @@ c76071815f21f2338e46b0cca4083181 *man/MEstimate-class.Rd
 485aca34320146a6f06383852c7807ac *man/Neighborhood-class.Rd
 60d737b1592e45615a5c00f32c3e725c *man/OptionalInfluenceCurve-Class.Rd
 2bda64fecdc1ef5568cc9757e49cc7d9 *man/PlotICWrapper.Rd
-ea8b18e7a3d1c00b780ff6005d448278 *man/RobAStBaseMASK.Rd
+855a060e9fd67762c23b6749057445e0 *man/RobAStBaseMASK.Rd
 d6d643bf388fd1b392af31a53bfee430 *man/RobAStBaseOptions.Rd
 29bcbbee80418d055ecb248a4e960ac1 *man/RobAStControl-class.Rd
 dca666475910af477f2e63502bbd0b3c *man/RobModel-class.Rd
@@ -137,7 +137,7 @@ a12119fd17d25afd28c6f0fd297099f0 *man/masked-methods.Rd
 65c94723c9893d110f1656e1dc0b6e4d *man/optIC.Rd
 b2a259ea596ed5c0131c1c9fb91355b1 *man/outlyingPlotIC.Rd
 8900c4714eb6c20731d2467d45eb3db5 *man/plot-methods.Rd
-7a214cc64ec1d86bc70c031313bc7dad *man/qqplot.Rd
+df946e66e12ceda39195a13ee20d4b9f *man/qqplot.Rd
 f13888113b2534ba10551a04540b02e1 *man/rescaleFunction-methods.Rd
-0650a014abbcc25ca8a01fe2c8705836 *man/returnlevelplot.Rd
+58c62150824a19152f981be3b8d50f34 *man/returnlevelplot.Rd
 eaf5d4f2664f72fd1dced9cba608539e *man/samplesize-methods.Rd
